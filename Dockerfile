@@ -1,4 +1,4 @@
-FROM wordpress:4.9.1-apache
+FROM wordpress:latest
 
 COPY html /var/www/html
 
