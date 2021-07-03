@@ -1,0 +1,29 @@
+# HTML
+# Archive your static HTML project and save it with the build record.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '5.x'
+
+- task: gitversion/execute@0
+  inputs:
+    updateAssemblyInfo: false
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(build.sourcesDirectory)/src/'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(GitVersion.SemVer).zip'
+    replaceExistingArchive: true
+- task: PublishBuildArtifacts@1
